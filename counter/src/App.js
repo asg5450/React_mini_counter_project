@@ -1,7 +1,7 @@
 import "./App.css";
 import Viewer from "./component/Viewer.js";
 import Controller from "./component/Controller.js";
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,9 +14,16 @@ function App() {
     setText(e.target.value);
   };
 
+  const didMountRef = useRef(false);
+
   useEffect(() => {
-    console.log("count 업데이트: ", count, text);
-  }, [count, text]);
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    } else {
+      console.log("컴포넌트 업데이트!");
+    }
+  });
 
   return (
     <div className="App">
